@@ -10,4 +10,4 @@ $config['facebook'] = array(
 	'consumer_key' => '232243553473734',
 	'consumer_secret' => '19817113d77d72fdf9f33510f6d27ba6',
 	'callback_url' => 'http://localhost:8888/oauth/callback.php',
-)
+);

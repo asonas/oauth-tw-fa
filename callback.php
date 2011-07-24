@@ -1,4 +1,14 @@
 <?php
+/*
+リファラ見てどの認証が終わったかをチェックするといいかも
+
+リファラ
+facebook
+mixi
+twitter
+それ以外はエラー
+*/
+
 ini_set('display_errors', 'On');
 session_start();
 require_once('./lib/twitteroauth.php');

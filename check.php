@@ -8,6 +8,7 @@ ini_set('display_errors', 'On');
 session_start();
 
 require_once './lib/twitteroauth.php';
+require_once './lib/facebook.php';
 require_once './config.php';
 
 foreach($_REQUEST as $key => $val){
@@ -16,19 +17,25 @@ foreach($_REQUEST as $key => $val){
 
 $_SESSION['message'] = $message = $data['message'];
 
-
+//うまく書こう
 if($data['facebook'] == 'true'){
 
-	//$result['facebook']['result'] =  postFacebook($mes);
+	//$result['facebook']['result'] =  postFacebook($message, $config);
+	$auth_checked['facebook']['status'] = '0';
 	
-} elseif ($data['twitter'] == 'true') {
+}
+if ($data['twitter'] == 'true') {
 	$auth_checked['twitter']['status'] = postTwitter($message, $config);
-
 }
 
+if($auth_checked['facebook']['status'] == '0'){
+	$result['facebook']['auth_url'] = genAuthURL4Facebook($config);
+}
+/*
 if($auth_checked['twitter']['status'] == '0'){
 	$result['twitter']['auth_url'] = genAuthURL4Twitter($config);
 }
+*/
 
 
 
@@ -56,10 +63,24 @@ function postTwitter($mes, $config){
 
 	$connection->post(
 		'statuses/update',
-		array('status' => 'Hello! Small World!!')
+		array('status' => $mes)
 	);
-	
 	return $content;
+}
+
+function postFacebook($mes, $config){
+Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYPEER] = false;
+Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYHOST] = 2;
+
+	$facebook = new Facebook(array(
+		'appId' => $config['facebook']['consumer_key'],
+		'secret' => $config['facebook']['consumer_secret'],
+		'redirect_uri' => $config['facebook']['callback_url'],
+	));
+	$response = $facebook->api(array(
+		'method' => 'stream.publish',
+		'message' => 'ベースはよ買わんと死ぬ。'
+	));
 }
 
 function genAuthURL4Twitter($config){
@@ -84,3 +105,25 @@ function genAuthURL4Twitter($config){
 	}	
 }
 
+function genAuthURL4Facebook($config) {
+	$facebook = new Facebook(array(
+		'appId' => $config['facebook']['consumer_key'],
+		'secret' => $config['facebook']['consumer_secret'],
+		'redirect_uri' => $config['facebook']['callback_url'],
+	));
+	
+	$user = $facebook->getUser();
+	
+	if ($user) {
+		//
+	} else {
+		$url = $facebook->getLoginUrl(array(
+			'canvas' => 1,
+			'fbconnect' => 0,
+			'scope' => 'status_update,publish_stream,manage_pages,offline_access',
+			'redirect_uri' => $config['facebook']['callback_url'],
+		));
+		return $url;
+	}
+	
+}

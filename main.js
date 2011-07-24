@@ -17,7 +17,7 @@ function check(params){
 	
 	var json = eval("("+req.response+")");
 	//alert(json.twitter.auth_url);
-	window.open(json.twitter.auth_url);
+	window.open(json.facebook.auth_url);
 	
 	//alert(req.response.twitter);
 	if(req.response == 200){
