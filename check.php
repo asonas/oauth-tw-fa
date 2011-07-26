@@ -113,8 +113,7 @@ function genAuthURL4Facebook($config) {
 	));
 	
 	$user = $facebook->getUser();
-	var_dump($user);
-	/*
+	
 	if ($user) {
 		//
 	} else {
@@ -126,6 +125,5 @@ function genAuthURL4Facebook($config) {
 		));
 		return $url;
 	}
-	*/
 	
 }
