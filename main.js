@@ -19,17 +19,17 @@ function check(params){
 	
 	if( typeof json != 'undefined' ){
 		if(typeof json.facebook.auth_url != 'undefined' ){
-			if( json.facebook.auth_url == null ){
+			if( json.facebook.auth_url != null ){
 				window.open(json.facebook.auth_url);
 			}
 		}
 		if( typeof json.mixi.auth_url != 'undefined' ){
-			if( json.mixi.auth_url == null ){
+			if( json.mixi.auth_url != null ){
 				window.open(json.mixi.auth_url);
 			}
 		}
 		if( typeof json.twitter.auth_url != 'undefined' ){
-			if( json.twitter.auth_url == null ){
+			if( json.twitter.auth_url != null ){
 				window.open(json.twitter.auth_url);
 			}
 		}	
