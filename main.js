@@ -18,13 +18,13 @@ function check(params){
 	var json = eval("("+req.response+")");
 	
 	if( typeof json != 'undefined' ){
-		if(typeof json.facebook.auth_url != 'undefined' ){
+		if(typeof json.facebook.auth_url != 'undefined' && json.facebook.auth_url == null ){
 			window.open(json.facebook.auth_url);
 		}
-		if( typeof json.mixi.auth_url != 'undefined' ){
+		if( typeof json.mixi.auth_url != 'undefined' && json.mixi.auth_url == null ){
 			window.open(json.mixi.auth_url);
 		}
-		if( typeof json.twitter.auth_url != 'undefined' ){
+		if( typeof json.twitter.auth_url != 'undefined' && json.twitter.auth_url == null ){
 			window.open(json.twitter.auth_url);	
 		}	
 	}
