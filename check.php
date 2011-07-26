@@ -36,7 +36,7 @@ if ($data['twitter'] == 'true') {
 }
 
 if(!empty($auth_checked['facebook']['status']) || $auth_checked['facebook']['status'] == 'disposted'){
-	$_SESSION['facebook']['auth_url'] = $result['facebook']['auth_url'] = genAuthURL4Facebook($config);
+	$_SESSION['facebook']['auth_url'] = $result['facebook']['auth_url'] = genAuthURL4Facebook($message, $config);
 }
 
 if(empty($auth_checked['twitter']['status']) || $auth_checked['twitter']['status'] == 'disposted'){
@@ -80,7 +80,7 @@ function postFacebook($mes, $config){
 	));
 	$response = $facebook->api(array(
 		'method' => 'stream.publish',
-		'message' => 'ベースはよ買わんと死ぬ。'
+		'message' => $mes
 	));
 }
 
