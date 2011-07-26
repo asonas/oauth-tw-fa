@@ -15,28 +15,33 @@ foreach($_REQUEST as $key => $val){
 	$data[$key] = $val; 
 }
 
+//失敗してたらフラグをたてて、成功したら折る
+$auth_checked = array(
+	'facebook' => array('status' => ''),
+	'twitter' => array('status' => ''),
+);
 $_SESSION['message'] = $message = $data['message'];
 
 //うまく書こう
-if($data['facebook'] == 'true'){
-
-	//$result['facebook']['result'] =  postFacebook($message, $config);
-	$auth_checked['facebook']['status'] = '0';
-	
+if($data['facebook'] == 'true'){ //成功
+	$_SESSION['facebook']['result'] = $auth_checked['facebook']['result'] =  postFacebook($message, $config);
+} else { //チェックされてなかった
+	$auth_checked['facebook']['status'] = 'disposted';
 }
+
 if ($data['twitter'] == 'true') {
-	$auth_checked['twitter']['status'] = postTwitter($message, $config);
+	$_SESSION['twitter']['result'] = $auth_checked['twitter']['result'] = postTwitter($message, $config);
+} else {
+	$auth_checked['twitter']['status'] = 'disposted';
 }
 
-if($auth_checked['facebook']['status'] == '0'){
-	$result['facebook']['auth_url'] = genAuthURL4Facebook($config);
+if(!empty($auth_checked['facebook']['status']) || $auth_checked['facebook']['status'] == 'disposted'){
+	$_SESSION['facebook']['auth_url'] = $result['facebook']['auth_url'] = genAuthURL4Facebook($config);
 }
-/*
-if($auth_checked['twitter']['status'] == '0'){
-	$result['twitter']['auth_url'] = genAuthURL4Twitter($config);
-}
-*/
 
+if(empty($auth_checked['twitter']['status']) || $auth_checked['twitter']['status'] == 'disposted'){
+	$_SESSION['twitter']['auth_url'] = $result['twitter']['auth_url'] = genAuthURL4Twitter($config);
+}
 
 
 echo json_encode($result);
@@ -65,7 +70,7 @@ function postTwitter($mes, $config){
 		'statuses/update',
 		array('status' => $mes)
 	);
-	return $content;
+	return 'success';
 }
 
 function postFacebook($mes, $config){
@@ -109,11 +114,11 @@ function genAuthURL4Facebook($config) {
 	$facebook = new Facebook(array(
 		'appId' => $config['facebook']['consumer_key'],
 		'secret' => $config['facebook']['consumer_secret'],
-		'redirect_uri' => $config['facebook']['callback_url'],
 	));
 	
 	$user = $facebook->getUser();
-	
+	var_dump($user);
+	/*
 	if ($user) {
 		//
 	} else {
@@ -125,5 +130,6 @@ function genAuthURL4Facebook($config) {
 		));
 		return $url;
 	}
+	*/
 	
 }
