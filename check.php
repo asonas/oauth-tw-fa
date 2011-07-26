@@ -80,7 +80,6 @@ Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYHOST] = 2;
 	$facebook = new Facebook(array(
 		'appId' => $config['facebook']['consumer_key'],
 		'secret' => $config['facebook']['consumer_secret'],
-		'redirect_uri' => $config['facebook']['callback_url'],
 	));
 	$response = $facebook->api(array(
 		'method' => 'stream.publish',
