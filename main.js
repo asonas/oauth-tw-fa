@@ -23,11 +23,13 @@ function check(params){
 				window.open(json.facebook.auth_url);
 			}
 		}
+		/*
 		if( typeof json.mixi.auth_url != 'undefined' ){
 			if( json.mixi.auth_url != null ){
 				window.open(json.mixi.auth_url);
 			}
 		}
+		*/
 		if( typeof json.twitter.auth_url != 'undefined' ){
 			if( json.twitter.auth_url != null ){
 				window.open(json.twitter.auth_url);
