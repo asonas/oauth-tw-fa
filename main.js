@@ -16,11 +16,16 @@ function check(params){
 	req.send(null);
 	
 	var json = eval("("+req.response+")");
-	//alert(json.twitter.auth_url);
-	window.open(json.facebook.auth_url);
 	
-	//alert(req.response.twitter);
-	if(req.response == 200){
-		alert(req.resposeText);
+	if( typeof json != 'undefined' ){
+		if(typeof json.facebook.auth_url != 'undefined' ){
+			window.open(json.facebook.auth_url);
+		}
+		if( typeof json.mixi.auth_url != 'undefined' ){
+			window.open(json.mixi.auth_url);
+		}
+		if( typeof json.twitter.auth_url != 'undefined' ){
+			window.open(json.twitter.auth_url);	
+		}	
 	}
 }

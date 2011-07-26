@@ -1,13 +1,4 @@
 <?php
-/*
-リファラ見てどの認証が終わったかをチェックするといいかも
-
-リファラ
-facebook
-mixi
-twitter
-それ以外はエラー
-*/
 ini_set('display_errors', 'On');
 session_start();
 require_once('./lib/twitteroauth.php');
@@ -18,6 +9,8 @@ if(isset($_REQUEST['oauth_token']) && $_SESSION['oauth_token'] !== $_REQUEST['oa
   //セッションがなかった場合にはセッションを一度クリアしてあげてからエラーを表示してあげよう。
   //セッションが切れました。こちらから再度お願いします的な
   //header('Location: ./clearsessions.php');
+  session_destroy();
+  return 'failse';
   
 }
 
