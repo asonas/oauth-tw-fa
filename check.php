@@ -74,9 +74,6 @@ function postTwitter($mes, $config){
 }
 
 function postFacebook($mes, $config){
-Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYPEER] = false;
-Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYHOST] = 2;
-
 	$facebook = new Facebook(array(
 		'appId' => $config['facebook']['consumer_key'],
 		'secret' => $config['facebook']['consumer_secret'],
